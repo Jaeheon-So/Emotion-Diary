@@ -1,4 +1,5 @@
 import "./App.css";
+import { useReducer, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 //pages
@@ -11,7 +12,67 @@ import Diary from "./pages/Diary";
 import MyButton from "./components/MyButton";
 import MyHeader from "./components/MyHeader";
 
+const reducer = (state, action) => {
+  let newState = [];
+  switch (action.type) {
+    case "INIT": {
+      return action.data;
+    }
+    case "CREATE": {
+      newState = [action.data, ...state];
+      break;
+    }
+    case "REMOVE": {
+      newState = state.filter((it) => {
+        return it.id !== action.targetId;
+      });
+      break;
+    }
+    case "EDIT": {
+      newState = state.map((it) => {
+        return it.id === action.data.id ? { ...action.data } : it;
+      });
+      break;
+    }
+    default:
+      return state;
+  }
+  return newState;
+};
+
 function App() {
+  const [data, dispatch] = useReducer(reducer, []);
+  const dataId = useRef(0);
+
+  const onCreate = (date, content, emotion) => {
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: dataId.current,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+    dataId.current += 1;
+  };
+
+  const onRemove = (targetId) => {
+    dispatch({ type: "REMOVE", targetId });
+  };
+
+  const onEdit = (targetId, date, content, emotion) => {
+    dispatch({
+      type: "EDIT",
+      data: {
+        id: targetId,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
+
   return (
     <BrowserRouter>
       <div className="App">
