@@ -8,10 +8,6 @@ import Edit from "./pages/Edit";
 import New from "./pages/New";
 import Diary from "./pages/Diary";
 
-// components
-import MyButton from "./components/MyButton";
-import MyHeader from "./components/MyHeader";
-
 const reducer = (state, action) => {
   let newState = [];
   switch (action.type) {
@@ -81,28 +77,6 @@ function App() {
       <DiaryDispatchContext.Provider value={(onCreate, onRemove, onEdit)}>
         <BrowserRouter>
           <div className="App">
-            <MyHeader
-              headText={"App"}
-              leftChild={
-                <MyButton
-                  text={"왼쪽 버튼"}
-                  onClick={() => {
-                    alert("왼쪽 버튼 클릭");
-                  }}
-                  type={"positive"}
-                />
-              }
-              rightChild={
-                <MyButton
-                  text={"오른쪽 버튼"}
-                  onClick={() => {
-                    alert("오른쪽 버튼 클릭");
-                  }}
-                  type={"negative"}
-                />
-              }
-            />
-            <h2>App.js</h2>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/new" element={<New />} />
