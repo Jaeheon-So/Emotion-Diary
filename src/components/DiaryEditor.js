@@ -5,33 +5,30 @@ import MyHeader from "./MyHeader";
 import EmotionItem from "./EmotionItem";
 import { DiaryDispatchContext } from "../App";
 
-const env = process.env;
-env.PUBLIC_URL = env.PUBLIC_URL || "";
-
 const emotionList = [
   {
     emotionId: 1,
-    emotionImg: process.env.PUBLIC_URL + `assets/emotion1.png`,
+    emotionImg: process.env.PUBLIC_URL + `/assets/emotion1.png`,
     emotionDescript: "완전 좋음",
   },
   {
     emotionId: 2,
-    emotionImg: process.env.PUBLIC_URL + `assets/emotion2.png`,
+    emotionImg: process.env.PUBLIC_URL + `/assets/emotion2.png`,
     emotionDescript: "좋음",
   },
   {
     emotionId: 3,
-    emotionImg: process.env.PUBLIC_URL + `assets/emotion3.png`,
+    emotionImg: process.env.PUBLIC_URL + `/assets/emotion3.png`,
     emotionDescript: "그럭저럭",
   },
   {
     emotionId: 4,
-    emotionImg: process.env.PUBLIC_URL + `assets/emotion4.png`,
+    emotionImg: process.env.PUBLIC_URL + `/assets/emotion4.png`,
     emotionDescript: "나쁨",
   },
   {
     emotionId: 5,
-    emotionImg: process.env.PUBLIC_URL + `assets/emotion5.png`,
+    emotionImg: process.env.PUBLIC_URL + `/assets/emotion5.png`,
     emotionDescript: "끔찍함",
   },
 ];
@@ -46,7 +43,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
   const { onCreate, onEdit } = useContext(DiaryDispatchContext);
   const [date, setDate] = useState(getStringDate(new Date()));
-  const [emotion, setEmotion] = useState(3);
+  const [emotion, setEmotion] = useState(3); // 최초 감정 설정 여부 확인
   const [content, setContent] = useState("");
   const contentRef = useRef();
   const handleClickEmote = (emotion) => {
@@ -54,6 +51,10 @@ const DiaryEditor = ({ isEdit, originData }) => {
   };
 
   const handleSubmit = () => {
+    // if (emotion === 0) { 최초감정 없을 때 사용
+    //   alert("감정을 골라주세요");
+    //   return;
+    // }
     if (content.length < 1) {
       contentRef.current.focus();
       return;
