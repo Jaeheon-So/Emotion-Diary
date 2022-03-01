@@ -1,9 +1,12 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyButton from "./MyButton";
-import MyHeader from ".//MyHeader";
+import MyHeader from "./MyHeader";
 import EmotionItem from "./EmotionItem";
 import { DiaryDispatchContext } from "../App";
+
+const env = process.env;
+env.PUBLIC_URL = env.PUBLIC_URL || "";
 
 const emotionList = [
   {
@@ -34,17 +37,18 @@ const emotionList = [
 ];
 
 const getStringDate = (date) => {
-  return date.toISOString().slice(0, 10);
+  return new Date(
+    date.getTime() - date.getTimezoneOffset() * 60000
+  ).toISOString();
 };
 
-const DiaryEditor = () => {
+const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
-  const { onCreate } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
   const [date, setDate] = useState(getStringDate(new Date()));
   const [emotion, setEmotion] = useState(3);
   const [content, setContent] = useState("");
   const contentRef = useRef();
-
   const handleClickEmote = (emotion) => {
     setEmotion(emotion);
   };
@@ -54,16 +58,32 @@ const DiaryEditor = () => {
       contentRef.current.focus();
       return;
     }
-    if (window.confirm(`새로운 일기를 작성하시겠습니까?`)) {
-      onCreate(date, content, emotion);
-      navigate("/", { replace: true });
+    if (
+      window.confirm(
+        isEdit ? "일기를 수정하시겠습니다?" : " 새로운 일기를 작성하시겠습니까?"
+      )
+    ) {
+      if (!isEdit) {
+        onCreate(date, content, emotion);
+      } else {
+        onEdit(originData.id, originData.date, content, emotion); // originData.date 확인
+      }
     }
+    navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    if (isEdit) {
+      setDate(getStringDate(new Date(parseInt(originData.date))));
+      setEmotion(originData.emotion);
+      setContent(originData.content);
+    }
+  }, [isEdit, originData]);
 
   return (
     <div className="DiaryEditor">
       <MyHeader
-        headText={"새 일기쓰기"}
+        headText={isEdit ? "일기 수정하기" : "새 일기쓰기"}
         leftChild={
           <MyButton
             text={"< 뒤로가기"}
@@ -79,7 +99,7 @@ const DiaryEditor = () => {
           <div className="input_box">
             <input
               className="input_date"
-              value={date}
+              value={date.slice(0, 10)}
               onChange={(e) => setDate(e.target.value)}
               type="date"
             />

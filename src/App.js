@@ -44,38 +44,39 @@ const dummyData = [
     id: 1,
     emotion: 1,
     content: "오늘의 일기 1번",
-    date: 1645869530642,
+    date: 1646136767309,
   },
   {
     id: 2,
     emotion: 2,
     content: "오늘의 일기 2번",
-    date: 1645869530643,
+    date: 1646136767310,
   },
   {
     id: 3,
     emotion: 3,
     content: "오늘의 일기 3번",
-    date: 1645869530644,
+    date: 1646136767311,
   },
   {
     id: 4,
     emotion: 4,
     content: "오늘의 일기 4번",
-    date: 1645869530645,
+    date: 1646136767312,
   },
   {
     id: 5,
     emotion: 5,
     content: "오늘의 일기 5번",
-    date: 1645869530646,
+    date: 1646136767313,
   },
 ];
 
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
-  const dataId = useRef(0);
-
+  const dataId = useRef(0); // 여기 확인
+  console.log(data);
+  console.log(new Date().getTime());
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: "CREATE",
@@ -98,9 +99,9 @@ function App() {
       type: "EDIT",
       data: {
         id: targetId,
-        date: new Date(date).getTime(),
-        content,
         emotion,
+        content,
+        date: new Date(date).getTime(),
       },
     });
   };
