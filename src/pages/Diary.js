@@ -29,7 +29,7 @@ const Diary = () => {
     return <div className="Diary_page">로딩중입니다...</div>;
   } else {
     return (
-      <div>
+      <div className="Diary_page">
         <MyHeader
           headText={`${getStringDate(new Date(data.date)).slice(0, 10)} 기록`}
           leftChild={
