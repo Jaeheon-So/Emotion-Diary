@@ -4,6 +4,7 @@ import MyButton from "./MyButton";
 import MyHeader from "./MyHeader";
 import EmotionItem from "./EmotionItem";
 import { DiaryDispatchContext } from "../App";
+import { getStringDate } from "../util/date";
 
 const emotionList = [
   {
@@ -32,12 +33,6 @@ const emotionList = [
     emotionDescript: "끔찍함",
   },
 ];
-
-const getStringDate = (date) => {
-  return new Date(
-    date.getTime() - date.getTimezoneOffset() * 60000
-  ).toISOString();
-};
 
 const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
