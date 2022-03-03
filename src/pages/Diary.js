@@ -4,6 +4,7 @@ import { DiaryStateContext } from "../App";
 import MyButton from "../components/MyButton";
 import MyHeader from "../components/MyHeader";
 import { getStringDate } from "../util/date";
+import { emotionList } from "../util/emotion";
 
 const Diary = () => {
   const navigate = useNavigate();
@@ -28,6 +29,10 @@ const Diary = () => {
   if (!data) {
     return <div className="Diary_page">로딩중입니다...</div>;
   } else {
+    const curEmotionData = emotionList.find(
+      (it) => parseInt(it.emotionId) === parseInt(data.emotion)
+    );
+
     return (
       <div className="Diary_page">
         <MyHeader
@@ -42,6 +47,28 @@ const Diary = () => {
             />
           }
         />
+        <article>
+          <section>
+            <h4>오늘의 감정</h4>
+            <div
+              className={[
+                "diary_img_wrapper",
+                `diary_img_wrapper_${data.emotion}`,
+              ].join(" ")}
+            >
+              <img src={curEmotionData.emotionImg} alt="" />
+              <div className="emotion_descript">
+                {curEmotionData.emotionDescript}
+              </div>
+            </div>
+          </section>
+        </article>
+        <section>
+          <h4>오늘의 일기</h4>
+          <div className="diary_content_wrapper">
+            <p>{data.content}</p>
+          </div>
+        </section>
       </div>
     );
   }
