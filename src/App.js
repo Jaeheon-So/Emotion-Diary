@@ -2,7 +2,6 @@ import "./App.css";
 import React, { useReducer, useRef } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-//pages
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
 import New from "./pages/New";

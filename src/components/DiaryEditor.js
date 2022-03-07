@@ -12,7 +12,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
   const [date, setDate] = useState(getStringDate(new Date()));
-  const [emotion, setEmotion] = useState(3); // 최초 감정 설정 여부 확인
+  const [emotion, setEmotion] = useState(3);
   const [content, setContent] = useState("");
   const contentRef = useRef();
   const handleClickEmote = (emotion) => {
