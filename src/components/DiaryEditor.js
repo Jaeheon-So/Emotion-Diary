@@ -11,7 +11,7 @@ import { emotionList } from "../util/emotion";
 const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
-  const [date, setDate] = useState(getStringDate(new Date()));
+  const [date, setDate] = useState(new Date());
   const [emotion, setEmotion] = useState(3);
   const [content, setContent] = useState("");
   const contentRef = useRef();
@@ -51,7 +51,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   useEffect(() => {
     if (isEdit) {
-      setDate(getStringDate(new Date(parseInt(originData.date))));
+      setDate(new Date(parseInt(originData.date)));
       setEmotion(originData.emotion);
       setContent(originData.content);
     }
@@ -85,7 +85,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
           <div className="input_box">
             <input
               className="input_date"
-              value={date.slice(0, 10)}
+              value={getStringDate(new Date(date)).slice(0, 10)}
               onChange={(e) => setDate(e.target.value)}
               type="date"
             />
